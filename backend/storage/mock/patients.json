@@ -1,0 +1,6 @@
+[
+  {"id": 1, "name": "Ana Torres", "bed": "A-12", "service": "Almuerzo"},
+  {"id": 2, "name": "Luis González", "bed": "B-07", "service": "Desayuno"},
+  {"id": 3, "name": "María Flores", "bed": "C-03", "service": "Cena"},
+  {"id": 4, "name": "Jorge Ramírez", "bed": "D-05", "service": "Almuerzo"}
+]

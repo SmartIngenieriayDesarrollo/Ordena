@@ -1,0 +1,42 @@
+[
+  {
+    "id": 101,
+    "patientId": 1,
+    "dietId": 1,
+    "service": "Almuerzo",
+    "status": "En preparación",
+    "notes": "Sin lácteos",
+    "startDate": "2024-06-01",
+    "endDate": "2024-06-07"
+  },
+  {
+    "id": 102,
+    "patientId": 2,
+    "dietId": 2,
+    "service": "Desayuno",
+    "status": "Servido",
+    "notes": "Revisar glucosa",
+    "startDate": "2024-06-02",
+    "endDate": "2024-06-09"
+  },
+  {
+    "id": 103,
+    "patientId": 3,
+    "dietId": 3,
+    "service": "Cena",
+    "status": "En preparación",
+    "notes": "Textura extra blanda",
+    "startDate": "2024-06-03",
+    "endDate": "2024-06-10"
+  },
+  {
+    "id": 104,
+    "patientId": 4,
+    "dietId": 4,
+    "service": "Almuerzo",
+    "status": "En ruta",
+    "notes": "Agregar fruta",
+    "startDate": "2024-06-04",
+    "endDate": "2024-06-11"
+  }
+]

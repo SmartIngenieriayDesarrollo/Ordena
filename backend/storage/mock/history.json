@@ -1,0 +1,5 @@
+[
+  {"id": 1, "orderId": 101, "action": "Orden registrada", "timestamp": "2024-06-01T08:30:00", "user": "María Gutiérrez"},
+  {"id": 2, "orderId": 102, "action": "Entrega confirmada", "timestamp": "2024-06-02T07:40:00", "user": "Cocina"},
+  {"id": 3, "orderId": 103, "action": "Cambio de textura", "timestamp": "2024-06-03T19:15:00", "user": "Nutrición"}
+]

@@ -1,0 +1,6 @@
+[
+  {"id": 1, "name": "Hiposódica", "description": "Baja en sodio, sin frituras"},
+  {"id": 2, "name": "Diabética", "description": "Control de carbohidratos y azúcares"},
+  {"id": 3, "name": "Blanda", "description": "Textura suave, sin condimentos fuertes"},
+  {"id": 4, "name": "Libre", "description": "Sin restricciones"}
+]
