@@ -1,4 +1,5 @@
-const BASE_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8000';
+// Usar ruta relativa en producción, localhost en desarrollo
+const BASE_URL = import.meta.env.VITE_BACKEND_URL || (import.meta.env.DEV ? 'http://localhost:8000' : '');
 
 async function request(path, options = {}) {
   const response = await fetch(`${BASE_URL}${path}`, {

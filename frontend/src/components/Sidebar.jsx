@@ -1,19 +1,20 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 import { ClipboardDocumentCheckIcon, ClockIcon, DocumentChartBarIcon, HomeIcon, QueueListIcon, UserIcon } from '@heroicons/react/24/outline';
 import '../styles/sidebar.css';
 
 const menuItems = [
-  { label: 'Pacientes', icon: UserIcon },
-  { label: 'Dietas', icon: ClipboardDocumentCheckIcon },
-  { label: 'Órdenes', icon: QueueListIcon },
-  { label: 'Cocina', icon: HomeIcon },
-  { label: 'Reportes', icon: DocumentChartBarIcon },
-  { label: 'Historial', icon: ClockIcon },
+  { label: 'Pacientes', icon: UserIcon, path: '/pacientes' },
+  { label: 'Dietas', icon: ClipboardDocumentCheckIcon, path: '/dietas' },
+  { label: 'Órdenes', icon: QueueListIcon, path: '/ordenes' },
+  { label: 'Cocina', icon: HomeIcon, path: '/cocina' },
+  { label: 'Reportes', icon: DocumentChartBarIcon, path: '/reportes' },
+  { label: 'Historial', icon: ClockIcon, path: '/historial' },
 ];
 
-export default function Sidebar() {
+export default function Sidebar({ isOpen }) {
   return (
-    <aside className="sidebar">
+    <aside className={`sidebar ${!isOpen ? 'collapsed' : ''}`}>
       <div className="brand">
         <div className="brand-dot" />
         <div>
@@ -23,11 +24,15 @@ export default function Sidebar() {
       </div>
 
       <nav className="menu">
-        {menuItems.map(({ label, icon: Icon }) => (
-          <button key={label} className={`menu-item ${label === 'Órdenes' ? 'active' : ''}`}>
+        {menuItems.map(({ label, icon: Icon, path }) => (
+          <NavLink
+            key={label}
+            to={path}
+            className={({ isActive }) => `menu-item ${isActive ? 'active' : ''}`}
+          >
             <Icon className="menu-icon" />
             <span>{label}</span>
-          </button>
+          </NavLink>
         ))}
       </nav>
 

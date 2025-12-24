@@ -1,0 +1,433 @@
+┌────────────────────────────────────────────────────────────────────────┐
+│                                                                        │
+│  ✅ CHECKLIST DE DESPLIEGUE - Ordéna v1.0.0                           │
+│                                                                        │
+│  📍 Destino: https://ordena.smartpos.com.co                           │
+│  📂 Carpeta: /public_html/ordena/                                     │
+│                                                                        │
+└────────────────────────────────────────────────────────────────────────┘
+
+
+════════════════════════════════════════════════════════════════════════
+  FASE 1: PREPARACIÓN LOCAL
+════════════════════════════════════════════════════════════════════════
+
+[ ] 1. Verificar que frontend/dist/ existe y tiene archivos
+        Comando: dir frontend\dist (Windows) o ls frontend/dist (Mac/Linux)
+        Debe mostrar: index.html + carpeta assets/
+
+[ ] 2. Verificar archivos nuevos creados:
+        [ ] backend/public/.htaccess
+        [ ] backend/src/config.php
+        [ ] backend/database/init.sql
+        [ ] frontend/.env.production
+
+[ ] 3. Crear ZIP de backend (opcional, para subida rápida)
+        Archivo: backend.zip (incluir public/, src/, storage/, database/)
+
+[ ] 4. Crear ZIP de frontend/dist (opcional)
+        Archivo: frontend-dist.zip (incluir TODO el contenido de dist/)
+
+
+════════════════════════════════════════════════════════════════════════
+  FASE 2: CONFIGURAR BLUEHOST
+════════════════════════════════════════════════════════════════════════
+
+[ ] 5. Ingresar a cPanel de Bluehost
+        URL: Proporcionada por Bluehost (generalmente https://tu-dominio.com:2083)
+
+[ ] 6. Verificar subdómino existe
+        Ir a: cPanel → Dominios → Lista de dominios
+        Buscar: ordena.smartpos.com.co
+        [ ] Subdominio existe
+        [ ] SSL/HTTPS está activo (candado verde)
+
+[ ] 7. Configurar Document Root
+        En Dominios → Gestionar → ordena.smartpos.com.co
+        Document Root debe ser: /public_html/ordena/public
+        [ ] Configuración guardada
+        [ ] Cambios aplicados (puede tomar 1-2 minutos)
+
+[ ] 8. Verificar versión de PHP
+        Ir a: cPanel → Software → Select PHP Version
+        O: cPanel → MultiPHP Manager
+        [ ] PHP 8.0 o superior seleccionado
+        [ ] Extensiones habilitadas:
+            [ ] pdo
+            [ ] pdo_mysql
+            [ ] json
+            [ ] mbstring
+
+
+════════════════════════════════════════════════════════════════════════
+  FASE 3: SUBIR BACKEND
+════════════════════════════════════════════════════════════════════════
+
+[ ] 9. Acceder a File Manager o FTP
+        Opción A: cPanel → Administrador de archivos
+        Opción B: FileZilla/WinSCP con credenciales FTP
+
+[ ] 10. Crear estructura de carpetas
+         Navegar a: /public_html/ordena/
+         [ ] Carpeta existe (si no, crearla)
+
+[ ] 11. Subir carpeta public/
+         Destino: /public_html/ordena/public/
+         Archivos:
+         [ ] index.php
+         [ ] .htaccess (NUEVO - verificar que se subió)
+
+[ ] 12. Subir carpeta src/
+         Destino: /public_html/ordena/src/
+         Archivos:
+         [ ] config.php (NUEVO - verificar que se subió)
+         [ ] helpers.php
+
+[ ] 13. Subir carpeta storage/
+         Destino: /public_html/ordena/storage/mock/
+         Archivos:
+         [ ] patients.json
+         [ ] diets.json
+         [ ] orders.json
+         [ ] history.json
+
+[ ] 14. Subir carpeta database/
+         Destino: /public_html/ordena/database/
+         Archivos:
+         [ ] init.sql
+
+
+════════════════════════════════════════════════════════════════════════
+  FASE 4: SUBIR FRONTEND
+════════════════════════════════════════════════════════════════════════
+
+[ ] 15. Subir index.html del frontend
+         Origen: frontend/dist/index.html
+         Destino: /public_html/ordena/public/index.html
+         [ ] Archivo subido
+         [ ] Tamaño: ~0.79 KB
+
+[ ] 16. Subir carpeta assets/
+         Origen: frontend/dist/assets/
+         Destino: /public_html/ordena/public/assets/
+         Archivos (nombres con hash):
+         [ ] index-[hash].css (~6.51 KB)
+         [ ] index-[hash].js (~18.29 KB)
+         [ ] react-vendor-[hash].js (~140.74 KB)
+         [ ] icons-[hash].js (~0.00 KB o vacío)
+
+
+════════════════════════════════════════════════════════════════════════
+  FASE 5: CONFIGURAR PERMISOS
+════════════════════════════════════════════════════════════════════════
+
+[ ] 17. Configurar permisos de carpetas (755)
+         En File Manager, clic derecho → Permisos (Change Permissions)
+         [ ] /public_html/ordena/ → 755
+         [ ] /public_html/ordena/public/ → 755
+         [ ] /public_html/ordena/src/ → 755
+         [ ] /public_html/ordena/storage/ → 755
+         [ ] /public_html/ordena/storage/mock/ → 755
+         [ ] /public_html/ordena/database/ → 755
+
+[ ] 18. Configurar permisos de archivos (644)
+         [ ] Todos los archivos .php → 644
+         [ ] .htaccess → 644
+         [ ] Todos los .json → 644
+         [ ] index.html → 644
+         [ ] Archivos en assets/ → 644
+
+
+════════════════════════════════════════════════════════════════════════
+  FASE 6: CONFIGURAR BASE DE DATOS
+════════════════════════════════════════════════════════════════════════
+
+[ ] 19. Acceder a phpMyAdmin
+         En cPanel → Bases de datos → phpMyAdmin
+
+[ ] 20. Verificar base de datos existe
+         En panel izquierdo, buscar: techwor2_ordena
+         [ ] Base de datos existe
+         [ ] Usuario techwor2_ordena tiene acceso
+
+[ ] 21. Ejecutar script SQL
+         [ ] Seleccionar base de datos techwor2_ordena
+         [ ] Ir a pestaña "SQL"
+         [ ] Copiar TODO el contenido de backend/database/init.sql
+         [ ] Pegar en el área de texto
+         [ ] Clic en "Continuar" o "Go"
+         [ ] Esperar mensaje de éxito
+
+[ ] 22. Verificar tablas creadas
+         En panel izquierdo, expandir techwor2_ordena
+         Tablas que deben aparecer:
+         [ ] patients (4 registros)
+         [ ] diets (4 registros)
+         [ ] orders (4 registros)
+         [ ] history (5 registros)
+         
+         Vistas que deben aparecer:
+         [ ] v_orders_complete
+         [ ] v_history_complete
+
+[ ] 23. Verificar datos de prueba
+         Ejecutar en pestaña SQL:
+         SELECT COUNT(*) FROM patients;  -- Debe retornar 4
+         SELECT COUNT(*) FROM diets;     -- Debe retornar 4
+         SELECT COUNT(*) FROM orders;    -- Debe retornar 4
+         SELECT COUNT(*) FROM history;   -- Debe retornar 5
+         
+         [ ] Todas las consultas retornan valores correctos
+
+
+════════════════════════════════════════════════════════════════════════
+  FASE 7: VERIFICACIÓN DE APIs
+════════════════════════════════════════════════════════════════════════
+
+[ ] 24. Probar endpoint /api/summary
+         URL: https://ordena.smartpos.com.co/api/summary
+         Abrir en navegador
+         [ ] Respuesta JSON visible
+         [ ] Contiene: activePatients, openOrders, todayMeals, pendingServices
+         [ ] Sin errores 500 o 404
+
+[ ] 25. Probar endpoint /api/orders
+         URL: https://ordena.smartpos.com.co/api/orders
+         [ ] Respuesta JSON con array "orders"
+         [ ] Al menos 4 órdenes visibles
+         [ ] Cada orden tiene: id, patientName, bed, dietName, service, status
+
+[ ] 26. Probar endpoint /api/history
+         URL: https://ordena.smartpos.com.co/api/history
+         [ ] Respuesta JSON con array "history"
+         [ ] Al menos 5 eventos visibles
+         [ ] Cada evento tiene: id, orderId, action, user, timestamp
+
+[ ] 27. Probar endpoint /api/pdf
+         URL: https://ordena.smartpos.com.co/api/pdf
+         [ ] Respuesta JSON con generatedAt, content, note
+
+
+════════════════════════════════════════════════════════════════════════
+  FASE 8: VERIFICACIÓN DE FRONTEND
+════════════════════════════════════════════════════════════════════════
+
+[ ] 28. Acceder a la URL principal
+         URL: https://ordena.smartpos.com.co
+         [ ] Página carga sin errores
+         [ ] No aparece error 404 o 500
+         [ ] Certificado SSL válido (candado verde)
+
+[ ] 29. Verificar carga de estilos
+         [ ] Sidebar azul oscuro visible
+         [ ] Logo "Ordéna" con badge turquesa visible
+         [ ] Menú lateral con iconos
+         [ ] Colores correctos (turquesa, gris, blanco)
+
+[ ] 30. Verificar dashboard carga datos
+         Debe mostrar 4 tarjetas con:
+         [ ] "Pacientes activos" con número (ejemplo: 4)
+         [ ] "Órdenes vigentes" con número (ejemplo: 3)
+         [ ] "Raciones del día" con número (ejemplo: 4)
+         [ ] "Servicios pendientes" con número (ejemplo: 3)
+
+[ ] 31. Verificar tabla de órdenes
+         [ ] Tabla visible con al menos 4 filas
+         [ ] Columnas: Paciente, Dieta, Servicio, Estado, Acciones
+         [ ] Badges de estado con colores (verde, amarillo, azul)
+         [ ] Botón "Marcar como entregado" visible
+
+[ ] 32. Verificar filtros funcionan
+         [ ] Hacer clic en "Almuerzo"
+         [ ] Tabla se filtra mostrando solo órdenes de almuerzo
+         [ ] Hacer clic en "Todos"
+         [ ] Tabla vuelve a mostrar todas las órdenes
+
+[ ] 33. Verificar historial carga
+         Panel derecho debe mostrar:
+         [ ] Lista de eventos con timestamps
+         [ ] Al menos 5 eventos visibles
+         [ ] Formato: hora - acción - usuario
+
+
+════════════════════════════════════════════════════════════════════════
+  FASE 9: PRUEBA DE FUNCIONALIDAD
+════════════════════════════════════════════════════════════════════════
+
+[ ] 34. Probar marcar orden como entregada
+         [ ] Identificar orden con estado "En ruta" o "En preparación"
+         [ ] Hacer clic en "Marcar como entregado"
+         [ ] Aparece mensaje "Sincronizando cambios..."
+         [ ] Badge de estado cambia a "Servido" (verde)
+         [ ] Botón se deshabilita (opacidad reducida)
+         [ ] Contador "Órdenes vigentes" disminuye en 1
+
+[ ] 35. Verificar historial se actualizó
+         [ ] Nuevo evento aparece arriba en el historial
+         [ ] Evento dice "Entrega confirmada"
+         [ ] Muestra timestamp actual
+         [ ] Muestra usuario (María Gutiérrez)
+
+[ ] 36. Probar panel de observaciones
+         [ ] Hacer clic en campo de texto de observaciones
+         [ ] Escribir texto de prueba
+         [ ] Efecto focus visible (borde turquesa + glow)
+
+[ ] 37. Probar generación de PDF
+         [ ] Hacer clic en botón "Generar listado en PDF"
+         [ ] Badge aparece: "PDF listo (HH:MM:SS)"
+
+
+════════════════════════════════════════════════════════════════════════
+  FASE 10: PRUEBA DE ANIMACIONES (UI/UX)
+════════════════════════════════════════════════════════════════════════
+
+[ ] 38. Verificar animaciones de cards
+         [ ] Recargar página (F5)
+         [ ] Cards aparecen con efecto fade-in desde abajo
+         [ ] Pasar mouse sobre cards
+         [ ] Cards se elevan suavemente
+
+[ ] 39. Verificar animaciones de botones
+         [ ] Pasar mouse sobre botones
+         [ ] Efecto de elevación + shadow turquesa
+         [ ] Hacer clic en botón
+         [ ] Efecto ripple visible (onda blanca)
+
+[ ] 40. Verificar animaciones de tabla
+         [ ] Pasar mouse sobre filas de tabla
+         [ ] Fila se eleva ligeramente
+         [ ] Background cambia a turquesa muy suave
+
+[ ] 41. Verificar animaciones del sidebar
+         [ ] Pasar mouse sobre items del menú
+         [ ] Item se desplaza a la derecha
+         [ ] Efecto sweep (barrido de luz)
+         [ ] Ícono rota y escala ligeramente
+
+[ ] 42. Verificar pulse del logo
+         [ ] Observar badge turquesa del logo
+         [ ] Debe tener efecto pulse sutil (sombra pulsa)
+         [ ] Pasar mouse sobre logo
+         [ ] Rota 90° y escala
+
+
+════════════════════════════════════════════════════════════════════════
+  FASE 11: PRUEBA RESPONSIVE
+════════════════════════════════════════════════════════════════════════
+
+[ ] 43. Probar en modo tablet
+         [ ] Abrir DevTools (F12)
+         [ ] Activar modo dispositivo (Ctrl+Shift+M)
+         [ ] Seleccionar iPad (768px)
+         [ ] Verificar que diseño se adapta
+         [ ] Sidebar y contenido visibles
+
+[ ] 44. Probar en modo mobile
+         [ ] Seleccionar iPhone (375px)
+         [ ] Verificar que diseño es de una columna
+         [ ] Tabla usa scroll horizontal si necesario
+
+
+════════════════════════════════════════════════════════════════════════
+  FASE 12: VERIFICACIÓN DE ERRORES
+════════════════════════════════════════════════════════════════════════
+
+[ ] 45. Revisar Console de navegador
+         [ ] Abrir DevTools (F12)
+         [ ] Ir a pestaña "Console"
+         [ ] NO debe haber errores rojos
+         [ ] Warnings amarillas son aceptables
+
+[ ] 46. Revisar Network de navegador
+         [ ] Ir a pestaña "Network"
+         [ ] Recargar página (F5)
+         [ ] Todas las peticiones deben ser 200 OK
+         [ ] Peticiones a /api/ deben retornar JSON
+
+[ ] 47. Revisar logs del servidor
+         [ ] En cPanel → Archivos → Error Log
+         [ ] Buscar errores recientes
+         [ ] NO debe haber errores PHP críticos
+
+
+════════════════════════════════════════════════════════════════════════
+  FASE 13: CONFIGURACIÓN FINAL (OPCIONAL)
+════════════════════════════════════════════════════════════════════════
+
+[ ] 48. Activar forzado de HTTPS
+         Editar: /public_html/ordena/public/.htaccess
+         Descomentar líneas:
+         # RewriteCond %{HTTPS} off
+         # RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+         [ ] Líneas descomentadas
+         [ ] Cambios guardados
+         [ ] Probar acceso con http:// redirige a https://
+
+[ ] 49. Cambiar modo de almacenamiento a MySQL (si listo)
+         Editar: /public_html/ordena/src/config.php
+         Cambiar: define('STORAGE_MODE', 'json');
+         Por: define('STORAGE_MODE', 'mysql');
+         [ ] Cambio realizado
+         [ ] API sigue funcionando
+         [ ] Datos se leen desde MySQL
+
+[ ] 50. Desactivar modo debug
+         En: /public_html/ordena/src/config.php
+         Verificar: define('DEBUG_MODE', false);
+         [ ] DEBUG_MODE está en false
+         [ ] Errores PHP no se muestran al usuario
+
+
+════════════════════════════════════════════════════════════════════════
+  ✅ CHECKLIST FINAL - VERIFICACIÓN COMPLETA
+════════════════════════════════════════════════════════════════════════
+
+[ ] Backend completamente subido (7 archivos)
+[ ] Frontend completamente subido (index.html + assets/)
+[ ] Base de datos creada con 4 tablas + 2 vistas
+[ ] Datos de prueba cargados (4+4+4+5 registros)
+[ ] Permisos configurados (755 carpetas, 644 archivos)
+[ ] 4 APIs funcionando correctamente
+[ ] Frontend carga sin errores
+[ ] Dashboard muestra métricas correctas
+[ ] Tabla de órdenes funcional con filtros
+[ ] Marcar como entregado funciona
+[ ] Historial se actualiza automáticamente
+[ ] Animaciones visibles y suaves
+[ ] Sin errores en Console de navegador
+[ ] SSL/HTTPS activo (candado verde)
+
+════════════════════════════════════════════════════════════════════════
+
+
+┌────────────────────────────────────────────────────────────────────────┐
+│                                                                        │
+│  🎉 ¡DESPLIEGUE COMPLETADO EXITOSAMENTE!                              │
+│                                                                        │
+│  📍 URL: https://ordena.smartpos.com.co                               │
+│  📊 Estado: Production Ready                                          │
+│  🎬 Siguiente paso: Ejecutar demostración (ver DEMO_SCRIPT.md)       │
+│                                                                        │
+│  Tiempo estimado de despliegue: 30-45 minutos                        │
+│                                                                        │
+└────────────────────────────────────────────────────────────────────────┘
+
+
+═══════════════════════════════════════════════════════════════════════
+  SOPORTE Y RECURSOS
+═══════════════════════════════════════════════════════════════════════
+
+📘 Guía completa: DEPLOYMENT_GUIDE.md
+🎬 Guión de demo: DEMO_SCRIPT.md
+📤 Lista de archivos: FILES_TO_UPLOAD.md
+📖 Resumen final: FINAL_SUMMARY.md
+
+Si encuentras problemas, consulta la sección "Solución de Problemas"
+en DEPLOYMENT_GUIDE.md
+
+
+═══════════════════════════════════════════════════════════════════════
+  Ordéna v1.0.0 - Sistema de Gestión de Nutrición Hospitalaria
+  © 2024 - Todos los derechos reservados
+═══════════════════════════════════════════════════════════════════════

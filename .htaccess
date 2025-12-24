@@ -1,0 +1,136 @@
+# Ordéna - .htaccess principal en la raíz del subdominio
+# Ubicación: /public_html/ordena/.htaccess
+# Root del subdominio: https://ordena.smartpos.com.co → /public_html/ordena/
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+
+    # ============================================
+    # 1. FORZAR HTTPS (recomendado para producción)
+    # ============================================
+    # Descomentar estas líneas para forzar HTTPS:
+    # RewriteCond %{HTTPS} off
+    # RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+    # ============================================
+    # 2. RUTAS DE LA API (Backend PHP)
+    # ============================================
+    # Todas las peticiones a /api/* van a public/index.php
+    RewriteCond %{REQUEST_URI} ^/api/
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^api/(.*)$ public/index.php [QSA,L]
+
+    # ============================================
+    # 3. ARCHIVOS ESTÁTICOS (CSS, JS, Imágenes)
+    # ============================================
+    # Si el archivo existe, servirlo directamente
+    RewriteCond %{REQUEST_FILENAME} -f
+    RewriteRule ^ - [L]
+
+    # ============================================
+    # 4. FRONTEND REACT (SPA)
+    # ============================================
+    # Todas las demás rutas van a index.html (React Router)
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_URI} !^/api/
+    RewriteRule ^ index.html [L]
+</IfModule>
+
+# ============================================
+# CONFIGURACIÓN DE CORS
+# ============================================
+<IfModule mod_headers.c>
+    # Permitir peticiones desde cualquier origen (cambiar * por dominio específico si necesario)
+    Header always set Access-Control-Allow-Origin "*"
+    Header always set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
+    Header always set Access-Control-Allow-Headers "Content-Type, Authorization, X-Requested-With"
+    Header always set Access-Control-Max-Age "3600"
+    
+    # Headers de seguridad
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set X-XSS-Protection "1; mode=block"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# ============================================
+# MANEJO DE PETICIONES OPTIONS (CORS preflight)
+# ============================================
+<IfModule mod_rewrite.c>
+    RewriteCond %{REQUEST_METHOD} OPTIONS
+    RewriteRule ^(.*)$ $1 [R=200,L]
+</IfModule>
+
+# ============================================
+# COMPRESIÓN GZIP
+# ============================================
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE application/json
+    AddOutputFilterByType DEFLATE application/javascript
+    AddOutputFilterByType DEFLATE text/css
+    AddOutputFilterByType DEFLATE text/html
+    AddOutputFilterByType DEFLATE text/plain
+    AddOutputFilterByType DEFLATE text/xml
+    AddOutputFilterByType DEFLATE image/svg+xml
+</IfModule>
+
+# ============================================
+# CACHE CONTROL
+# ============================================
+<IfModule mod_expires.c>
+    ExpiresActive On
+    
+    # Sin cache para HTML y API
+    ExpiresByType text/html "access plus 0 seconds"
+    ExpiresByType application/json "access plus 0 seconds"
+    
+    # Cache largo para assets con hash en nombre
+    ExpiresByType text/css "access plus 1 year"
+    ExpiresByType application/javascript "access plus 1 year"
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+    ExpiresByType font/woff2 "access plus 1 year"
+</IfModule>
+
+# ============================================
+# SEGURIDAD
+# ============================================
+# Prevenir listado de directorios
+Options -Indexes
+
+# Proteger archivos sensibles
+<FilesMatch "^\.">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Proteger archivos de configuración PHP
+<FilesMatch "\.(env|ini|log|sh|sql)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Bloquear acceso a carpetas sensibles
+RedirectMatch 403 ^/src/
+RedirectMatch 403 ^/storage/
+RedirectMatch 403 ^/database/
+
+# ============================================
+# CONFIGURACIÓN DE PHP
+# ============================================
+<IfModule mod_php.c>
+    php_value upload_max_filesize 10M
+    php_value post_max_size 10M
+    php_value max_execution_time 300
+    php_value memory_limit 128M
+</IfModule>
+
+# ============================================
+# PÁGINAS DE ERROR (opcional)
+# ============================================
+# ErrorDocument 404 /index.html
+# ErrorDocument 500 /index.html

@@ -1,0 +1,197 @@
+════════════════════════════════════════════════════════════════
+  GUÍA VISUAL - ARCHIVOS PARA SUBIR A BLUEHOST
+════════════════════════════════════════════════════════════════
+
+
+📍 ROOT DEL SUBDOMINIO: /public_html/ordena/
+🌐 URL: https://ordena.smartpos.com.co
+
+
+┌─────────────────────────────────────────────────────────────┐
+│  /public_html/ordena/  (RAÍZ - Aquí va el frontend)        │
+└─────────────────────────────────────────────────────────────┘
+
+    SUBIR AQUÍ:
+    
+    📄 .htaccess                    ← Del PROYECTO RAÍZ (nuevo)
+    📄 index.html                   ← De frontend/dist/
+    📁 assets/                      ← De frontend/dist/
+       ├── index-[hash].css
+       ├── index-[hash].js
+       └── react-vendor-[hash].js
+
+
+┌─────────────────────────────────────────────────────────────┐
+│  /public_html/ordena/public/  (Backend PHP)                 │
+└─────────────────────────────────────────────────────────────┘
+
+    SUBIR AQUÍ:
+    
+    📄 index.php                    ← De backend/public/
+
+
+┌─────────────────────────────────────────────────────────────┐
+│  /public_html/ordena/src/  (Código PHP adicional)           │
+└─────────────────────────────────────────────────────────────┘
+
+    SUBIR AQUÍ:
+    
+    📄 config.php                   ← De backend/src/
+    📄 helpers.php                  ← De backend/src/
+
+
+┌─────────────────────────────────────────────────────────────┐
+│  /public_html/ordena/storage/mock/  (Datos JSON)            │
+└─────────────────────────────────────────────────────────────┘
+
+    SUBIR AQUÍ:
+    
+    📄 patients.json                ← De backend/storage/mock/
+    📄 diets.json                   ← De backend/storage/mock/
+    📄 orders.json                  ← De backend/storage/mock/
+    📄 history.json                 ← De backend/storage/mock/
+
+
+┌─────────────────────────────────────────────────────────────┐
+│  /public_html/ordena/database/  (Script SQL)                │
+└─────────────────────────────────────────────────────────────┘
+
+    SUBIR AQUÍ:
+    
+    📄 init.sql                     ← De backend/database/
+
+
+════════════════════════════════════════════════════════════════
+  ARCHIVOS QUE TIENES EN TU PC
+════════════════════════════════════════════════════════════════
+
+Tu proyecto local:
+
+C:\Users\aleja\...\Ordena\
+│
+├── .htaccess                       ← ⬆️ SUBIR A /ordena/
+├── backend/
+│   ├── public/
+│   │   └── index.php               ← ⬆️ SUBIR A /ordena/public/
+│   ├── src/
+│   │   ├── config.php              ← ⬆️ SUBIR A /ordena/src/
+│   │   └── helpers.php             ← ⬆️ SUBIR A /ordena/src/
+│   ├── storage/
+│   │   └── mock/
+│   │       ├── *.json              ← ⬆️ SUBIR A /ordena/storage/mock/
+│   └── database/
+│       └── init.sql                ← ⬆️ SUBIR A /ordena/database/
+│
+└── frontend/
+    └── dist/                       ← ⬆️ TODO ESTE CONTENIDO
+        ├── index.html              ← ⬆️ SUBIR A /ordena/
+        └── assets/                 ← ⬆️ SUBIR A /ordena/assets/
+
+
+════════════════════════════════════════════════════════════════
+  CÓMO FUNCIONAN LAS URLs
+════════════════════════════════════════════════════════════════
+
+Usuario accede a:                     El servidor sirve:
+────────────────────────────────────────────────────────────────
+
+🌐 https://ordena.smartpos.com.co/
+   ↓
+   📄 /public_html/ordena/index.html (Frontend React)
+
+
+🌐 https://ordena.smartpos.com.co/assets/index-abc.css
+   ↓
+   📄 /public_html/ordena/assets/index-abc.css (CSS)
+
+
+🌐 https://ordena.smartpos.com.co/api/orders
+   ↓
+   📄 /public_html/ordena/public/index.php (API Backend)
+   (El .htaccess redirige /api/* aquí)
+
+
+🌐 https://ordena.smartpos.com.co/api/summary
+   ↓
+   📄 /public_html/ordena/public/index.php (API Backend)
+
+
+════════════════════════════════════════════════════════════════
+  CHECKLIST VISUAL DE SUBIDA
+════════════════════════════════════════════════════════════════
+
+EN FILEZILLA, LADO DERECHO (Servidor):
+
+[ ] Navegar a: /ordena/
+
+[ ] Subir desde tu PC:
+    [ ] .htaccess (del proyecto raíz)
+    [ ] index.html (de frontend/dist/)
+    [ ] Carpeta assets/ (de frontend/dist/)
+
+[ ] Crear/Subir carpeta: public/
+    [ ] Dentro poner: index.php (de backend/public/)
+
+[ ] Crear/Subir carpeta: src/
+    [ ] Dentro poner: config.php, helpers.php
+
+[ ] Crear/Subir carpeta: storage/mock/
+    [ ] Dentro poner: 4 archivos .json
+
+[ ] Crear/Subir carpeta: database/
+    [ ] Dentro poner: init.sql
+
+
+════════════════════════════════════════════════════════════════
+  RESULTADO FINAL EN FILEZILLA
+════════════════════════════════════════════════════════════════
+
+Lado derecho (Sitio remoto: /ordena):
+
+📁 assets/
+   └── (archivos JS y CSS)
+📁 database/
+   └── init.sql
+📁 public/
+   └── index.php
+📁 src/
+   ├── config.php
+   └── helpers.php
+📁 storage/
+   └── mock/
+       └── (4 archivos .json)
+📄 .htaccess
+📄 index.html
+
+
+════════════════════════════════════════════════════════════════
+  DIFERENCIA CLAVE vs. ANTES
+════════════════════════════════════════════════════════════════
+
+❌ ANTES (INCORRECTO):
+   /ordena/public/  ← Todo aquí (frontend + backend)
+
+✅ AHORA (CORRECTO):
+   /ordena/         ← Frontend (index.html + assets + .htaccess)
+   /ordena/public/  ← Solo backend (index.php)
+
+
+════════════════════════════════════════════════════════════════
+  NOTAS IMPORTANTES
+════════════════════════════════════════════════════════════════
+
+⚠️  El .htaccess de la RAÍZ del proyecto es DIFERENTE al que
+    estaba en backend/public/.htaccess (ese ya no se usa)
+
+⚠️  Solo debe existir UN .htaccess en /ordena/.htaccess
+
+⚠️  NO pongas ningún .htaccess dentro de /ordena/public/
+
+✅  El .htaccess maneja automáticamente:
+    - Frontend (index.html)
+    - Backend (/api/* → public/index.php)
+    - Assets estáticos (CSS, JS)
+    - CORS y seguridad
+
+
+════════════════════════════════════════════════════════════════

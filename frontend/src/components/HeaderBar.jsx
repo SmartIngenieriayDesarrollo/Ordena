@@ -1,7 +1,7 @@
 import React from 'react';
-import { CalendarDaysIcon, UserCircleIcon } from '@heroicons/react/24/solid';
+import { Bars3Icon, CalendarDaysIcon, UserCircleIcon } from '@heroicons/react/24/outline';
 
-export default function HeaderBar({ title, professional }) {
+export default function HeaderBar({ title, professional = 'Dra. María Gutiérrez', onMenuClick }) {
   const today = new Date();
   const dateLabel = today.toLocaleDateString('es-ES', {
     weekday: 'long',
@@ -12,17 +12,27 @@ export default function HeaderBar({ title, professional }) {
   return (
     <div className="header-bar">
       <div className="header-info">
-        <p className="badge">Tablero clínico digital</p>
-        <h1>{title}</h1>
-        <p className="header-meta">Gestiona la prescripción y entrega de dietas en tiempo real.</p>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+          <button className="menu-toggle" onClick={onMenuClick}>
+            <Bars3Icon width={22} />
+          </button>
+          <div>
+            <span className="badge">Sistema de Nutrición</span>
+            <h1 style={{ marginTop: 8 }}>{title}</h1>
+          </div>
+        </div>
       </div>
       <div className="header-meta">
-        <CalendarDaysIcon width={28} color="#4ecdc4" />
-        <strong>{dateLabel}</strong>
-        <UserCircleIcon width={38} color="#4ecdc4" />
-        <div>
-          <p style={{ margin: 0, fontWeight: 700 }}>{professional}</p>
-          <small style={{ color: '#6c757d' }}>Nutrición</small>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <CalendarDaysIcon width={18} color="var(--primary)" />
+          <span style={{ fontWeight: 500 }}>{dateLabel}</span>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          <UserCircleIcon width={32} color="var(--primary)" />
+          <div>
+            <p style={{ margin: 0, fontWeight: 600, fontSize: 13, color: 'var(--text)' }}>{professional}</p>
+            <p style={{ margin: 0, fontSize: 12, color: 'var(--text-muted)' }}>Nutrición Clínica</p>
+          </div>
         </div>
       </div>
     </div>
